@@ -1,1 +1,15 @@
-
+rm(list=ls())
+options(stringsAsFactors = F)
+load("./heatmap.RData") 
+library(ComplexHeatmap)
+ComplexHeatmap::Heatmap(HLA_KIR,
+                        col = colorRampPalette(c(c("#009FCC", "#FFFFFF", "#E64B35FF")))(100),
+                        column_split  = factor(old_patient_stage$group1, levels = c("Cluster1","Cluster2","Cluster3")),
+                        name = " ",
+                        row_names_side = "left",
+                        right_annotation = row_ha2,
+                        top_annotation = sfd,
+                        show_column_names = F,
+                        cluster_rows = F,
+                        cluster_columns = F,
+)
