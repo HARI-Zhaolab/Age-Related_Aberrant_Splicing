@@ -23,7 +23,7 @@ PSI_data_group <- PSI_data_group[, order(match(colnames(PSI_data_group), old_pat
 ####扰动程度评级####
 # # 下载的时候：a percentage of samples with a PSI value >=75 was set as the cutoff value
 # PSI_data <- read.table(file="/home/cmx/My_Project/indata/PSI_download_BRCA.txt",header=TRUE,check.names=F,quote="")
-# # PSI_range0.75以下的,认为不是那么重要的可变剪接事件
+# 
 # PSI_data <- PSI_data[PSI_data$psi_range >= 0.75,]
 # colnames(PSI_data)[11:1217] <- gsub("_", "-", colnames(PSI_data)[11:1217])
 # # 不去除正常样本
