@@ -1,10 +1,10 @@
 # Age-Related Aberrant Splicing and Its Role in Elderly Breast Cancer Prognosis
 
-Mengxin Chen (1), Taiping Xiao (1), Hao Ke (1), Chun Ye, Fan Yu, Jianbin Su, Shixin Yang, Yun Feng, Huaimeng Xu, Shiting Fu, Liang Lin, Junqiang Lin, Yao Xie, Qianzhe Ding, Ye Qiu, Ruifan Yu, Hongyu Lv, Wulian Li, Yuhan Zhang, Zhenluo Ding, Yang Zou`*`, Huozhong Yuan`*`,Limin Zhao`*`
+Mengxin Chen (1), Taiping Xiao (1), Hao Ke (1), Chun Ye, Fan Yu, Jianbin Su, Shixin Yang, Yun Feng, Huaimeng Xu, Shiting Fu, Liang Lin, Junqiang Lin, Yao Xie, Qianzhe Ding, Ye Qiu, Ruifan Yu, Hongyu Lv, Wulian Li, Yuhan Zhang, Zhenluo Ding, Yang Zou*, Huozhong Yuan*,Limin Zhao*
 
 (1) These authors contributed equally
 
-`*`Corresponding Author
+*Corresponding Author
 
 ------
 
@@ -40,7 +40,7 @@ Unsupervised clustering based on these events revealed **three subtypes** with d
 
 For related aging and cancer genomics research, please visit:
 
-🔗[zhaolab-HARI](https://zhaoliminlab.cn/)
-
 🔗[NCU-HARI](https://aging.ncu.edu.cn/)
+
+🔗[HARI-zhaolab](https://zhaoliminlab.cn/)
 
