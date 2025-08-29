@@ -1,18 +1,17 @@
 setwd('/home/cmx/senes_splicing/')
-
 rm(list = ls())
 options(stringsAsFactors = F)
-load("./outdata/step1_cluster_os.Rdata")
 
 library(dplyr)
 library(TCGAbiolinks)
+
+load("./outdata/step1_cluster_os.Rdata")
 # query <- GDCquery(project = "TCGA-BRCA",
 #                   data.category = "Copy Number Variation",
 #                   data.type = "Masked Copy Number Segment")
 # 
 # BRCA_CNV_download <- GDCprepare(query = query, save = TRUE, save.filename = "./outdata/BRCA_CNV_download.rda")
 
-#读取rda文件
 getwd()
 A=load("./outdata/BRCA_CNV_download.rda")
 tumorCNV <- eval(parse(text = A))
