@@ -40,7 +40,7 @@ Unsupervised clustering based on these events revealed **three subtypes** with d
 
 For related aging and cancer genomics research, please visit:
 
-🔗[赵丽敏实验室 – zhaolab-HARI](https://zhaoliminlab.cn/)
+🔗[zhaolab-HARI](https://zhaoliminlab.cn/)
 
-🔗[南昌大学人类衰老研究所](https://aging.ncu.edu.cn/)
+🔗[NCU-HARI](https://aging.ncu.edu.cn/)
 
