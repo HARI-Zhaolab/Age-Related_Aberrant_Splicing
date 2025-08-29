@@ -30,13 +30,6 @@ Recommended project directory structure:
 text
 
 
-
-复制
-
-
-
-下载
-
 ```
 project/
 ├── ref/                    # Reference files directory
@@ -65,13 +58,6 @@ project/
 
 bash
 
-
-
-复制
-
-
-
-下载
 
 ```
 # Submit to SLURM cluster
