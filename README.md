@@ -42,5 +42,5 @@ For related aging and cancer genomics research, please visit:
 
 🔗[NCU-HARI](https://aging.ncu.edu.cn/): Human Aging Research Institute has gathered a number of outstanding researchers, and provides superior conditions for scientific research.
 
-🔗[HARI-zhaolab](https://zhaoliminlab.cn/): The research team is affiliated to the platform of the Human Aging Research Institute of Nanchang University.
+🔗[HARI-zhaolab](https://zhaoliminlab.cn/): Our research team is affiliated to the platform of the Human Aging Research Institute of Nanchang University.
 
