@@ -20,7 +20,7 @@ library(DESeq2)
 library(edgeR)
 # setwd('/home/cmx/Others_Analysis/KeH/InputData/')
 # count_files = dir("expdata/",pattern = "*.tsv$",recursive = T)
-#
+
 # exp = list()
 # for(i in 1:length(count_files)){
 #   exp[[i]] = read.table(paste0("expdata/",count_files[[i]]),header=T,sep="\t")
