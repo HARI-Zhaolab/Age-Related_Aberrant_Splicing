@@ -20,7 +20,7 @@ library(DESeq2)
 library(edgeR)
 # res1 <- nmf(PSI_data_top,3, 'Brunet', maxIter = 500,seed=211)
 consensusmap(res1)
-#查看分组情况
+
 group1 <- predict(res1)
 group1 <- as.data.frame(group1)
 group1$group1 <- paste0('Cluster',group1$group1)
