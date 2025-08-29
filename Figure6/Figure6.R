@@ -9,7 +9,6 @@ library(tidyverse)
 library(RCurl)
 library(cowplot)
 library(sctransform)
-####加载数据，就五个样本####
 # 加载必要的库
 library(tools)
 library(Rcpp)
