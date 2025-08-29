@@ -3,7 +3,7 @@
 Ganzhou cohort：All raw RNA seq data generated from this study can be accessed in the NGDC database under accession number HRA006220 and HRA009553.
 
 FUSCC cohort：The accession number for all the data reported in this paper is NODE: OEP000155. All data can be viewed in The National Omics Data Encyclopedia (NODE) (http://www.biosino.org/node) by pasting the accession (OEP000155) into the text search box or through the URL: http://www.biosino.org/node/project/detail/OEP000155.
-
+![External Data Usage Diagram.png](./External_Data_Usage_Diagram.png)
 ## **Expression Analysis**: 
 
 - **`1.run_fastp.sh`**
