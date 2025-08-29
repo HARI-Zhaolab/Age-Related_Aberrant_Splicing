@@ -1,4 +1,4 @@
-# Splicing Variation Analysis - TCGA BRCA
+# TCGA BRCA Data
 
 This script processes TCGA BRCA data to analyze alternative splicing events, focusing on different age groups (young and old patients). It merges splicing data (PSI values) with clinical data and filters out irrelevant or low-confidence splicing events.
 
@@ -6,7 +6,7 @@ This script processes TCGA BRCA data to analyze alternative splicing events, foc
 
 1. **PSI Data**: PSI_download_BRCA.txt-The raw PSI data for BRCA samples.
 2. **Clinical Data**: clinical_age.Rdata-Patient clinical data (age, diagnosis, etc.).
-
+The clinical data utilized in this study, such as patient age and diagnosis information, were directly downloaded from the official GDC Data Portal (https://portal.gdc.cancer.gov/).
 ### Outputs:
 
 - Filtered PSI data based on age (young vs. old patients).
