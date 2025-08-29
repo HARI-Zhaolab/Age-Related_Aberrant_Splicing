@@ -1,0 +1,1 @@
+cat sample.txt | parallel -j 6 "hisat2 --summary-file ./3.align/{}_summary.txt -p 6 -x /home/sjb/workspace/rna-seq/00_ref/human/genome -1 ./1.raw_data/{}_1.fq.gz -2 ./1.raw_data/{}_2.fq.gz -S ./3.align/{}.sam --rna-strandness RF > ./3.align/{}_log.txt 2>&1"

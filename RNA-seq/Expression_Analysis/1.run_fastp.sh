@@ -1,0 +1,12 @@
+fastp -i ./1.raw_data/A1_1.fq.gz -o ./2.clean_data/A1_1.fq.gz -h A1_1.fq.gz.html -j A1_1.fq.gz.json
+fastp -i ./1.raw_data/A1_2.fq.gz -o ./2.clean_data/A1_2.fq.gz -h A1_2.fq.gz.html -j A1_2.fq.gz.json
+fastp -i ./1.raw_data/A2_1.fq.gz -o ./2.clean_data/A2_1.fq.gz -h A2_1.fq.gz.html -j A2_1.fq.gz.json
+fastp -i ./1.raw_data/A2_2.fq.gz -o ./2.clean_data/A2_2.fq.gz -h A2_2.fq.gz.html -j A2_2.fq.gz.json
+fastp -i ./1.raw_data/A3_1.fq.gz -o ./2.clean_data/A3_1.fq.gz -h A3_1.fq.gz.html -j A3_1.fq.gz.json
+fastp -i ./1.raw_data/A3_2.fq.gz -o ./2.clean_data/A3_2.fq.gz -h A3_2.fq.gz.html -j A3_2.fq.gz.json
+fastp -i ./1.raw_data/B1_1.fq.gz -o ./2.clean_data/B1_1.fq.gz -h B1_1.fq.gz.html -j B1_1.fq.gz.json
+fastp -i ./1.raw_data/B1_2.fq.gz -o ./2.clean_data/B1_2.fq.gz -h B1_2.fq.gz.html -j B1_2.fq.gz.json
+fastp -i ./1.raw_data/B2_1.fq.gz -o ./2.clean_data/B2_1.fq.gz -h B2_1.fq.gz.html -j B2_1.fq.gz.json
+fastp -i ./1.raw_data/B2_2.fq.gz -o ./2.clean_data/B2_2.fq.gz -h B2_2.fq.gz.html -j B2_2.fq.gz.json
+fastp -i ./1.raw_data/B3_1.fq.gz -o ./2.clean_data/B3_1.fq.gz -h B3_1.fq.gz.html -j B3_1.fq.gz.json
+fastp -i ./1.raw_data/B3_2.fq.gz -o ./2.clean_data/B3_2.fq.gz -h B3_2.fq.gz.html -j B3_2.fq.gz.json

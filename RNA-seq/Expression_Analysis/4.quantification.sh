@@ -1,0 +1,1 @@
+cat sample.txt | parallel -j 6 "Rscript /home/sjb/workspace/rna-seq/script/run-featurecounts.R -b ./4.samTobam/{}.bam -g /home/sjb/workspace/rna-seq/00_ref/human/genes.gtf -o ./5.Quantification/{} > ./5.Quantification/{}_log.txt 2>&1"
