@@ -38,7 +38,7 @@ library(tidyverse)
 #               printOutput = TRUE,
 #               removeLowVaringGenesFrom = 'rawData' )
 # 
-# #####CTRP####
+#####CTRP####
 # dir='/home/cmx/Reproduce_and_become_mine/BLCA_Oncogene/InputData/DataFiles/Training Data'
 # CTRP1_Res = readRDS(file = file.path(dir,"CTRP2_Res.rds"))
 # CTRP1_Res <- exp(CTRP1_Res)
