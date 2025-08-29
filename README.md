@@ -14,7 +14,7 @@ Breast cancer incidence and mortality rise sharply with age, but the role of **a
 
 Unsupervised clustering based on these events revealed **three subtypes** with distinct **immune infiltration patterns, genomic instability, and prognoses**. Further, we identified **68 RNA-binding proteins (RBPs)** as potential regulators of these splicing profiles. A **machine learning model (SelectKBest-SVM)** was constructed using these RBPs, achieving high predictive accuracy for elderly patient outcomes across independent cohorts.
 
-![Conceptual Framework Diagram](D:\IM\Conceptual Framework Diagram-1756389046092-2.png)
+![Conceptual Framework Diagram](./Conceptual_Framework_Diagram.png)
 
 ------
 
