@@ -1,92 +1,92 @@
 setwd('/home/cmx/senes_splicing/')
-.libPaths("/home/cmx/R/x86_64-pc-linux-gnu-library/4.2",include.site = TRUE)
-rm(list=ls())
-library(dbplyr)
-library(clusterProfiler)
-library(dplyr)
-library(TCGAbiolinks)
-library(DMwR2)
-library(limma)
-library(Rtsne)
-library(ggplot2)
-library(NMF)
-library(tidyverse)
-library(survival)
-library(survminer)
-###整理一下这些剪接事件的患者年龄信息####
-###整理可变剪接数据####
-# 下载的时候：a percentage of samples with a PSI value >=75 was set as the cutoff value
-PSI_data <- read.table(file="/home/cmx/My_Project/indata/TCGA_cancer/BRCA/1_raw_download_data4step1/PSI_download_BRCA.txt",header=TRUE,check.names=F,quote="")
-# PSI_range0.75以下的,认为不是那么重要的可变剪接事件
-PSI_data <- PSI_data[PSI_data$psi_range >= 0.75,]
-colnames(PSI_data)[11:1217] <- gsub("_", "-", colnames(PSI_data)[11:1217])
-# 不去除正常样本
-#PSI_data <- subset(PSI_data, select = !grepl("-Norm", colnames(PSI_data)))#得到1104个样本
-# mean value of PSI less than 0.01 or standard deviations value of PSI less than 0.01 were ruled out.另一篇文献有说
-PSI_data <- PSI_data[PSI_data$std_psi >= 0.01 ,]
-# PSI_data <- PSI_data[!(PSI_data$from_exon == "null" & PSI_data$to_exon == "null"),]
-# # 检查每一列是否可以成功转换为数值
-# check_conversion <- function(x) {
-#   suppressWarnings(as.numeric(x)) %>%
-#     is.na() %>%
-#     sum() == 0
-# }
-# 
-# # 仅转换可以成功转换为数值的列
-# PSI_data[, 11:1217] <- PSI_data[, 11:1217] %>%
-#   mutate(across(where(is.character) & where(check_conversion), as.numeric))
-# 
-# # 对于无法成功转换的列，可以单独处理，比如用NA替换
-# PSI_data[, 11:1217] <- PSI_data[, 11:1217] %>%
-#   mutate(across(where(is.character) & !where(check_conversion), ~as.numeric(gsub("[^0-9.-]", "", .))))
-# 
-# # 检查转换结果
-# head(PSI_data[, 11:1217])
 
-# 使用K近邻（KNN）算法填充PDUI或PSI值的缺失值
-#PSI_data_filled <- knnImputation(PSI_data[11:1217], k=10)#跑太久了，不想再跑了
-#write.csv(PSI_data_filled,"./outdata/PSI_data_filled.csv")
+## Safer .libPaths: prepend your user lib without unknown arguments
+.libPaths(c("/home/cmx/R/x86_64-pc-linux-gnu-library/4.2", .libPaths()))
 
-PSI_data_filled<-read.csv("./outdata/PSI_data_filled.csv",header = TRUE,sep = ",")
+rm(list = ls())
 
-PSI_data_filled<-PSI_data_filled[,-1]
-colnames(PSI_data_filled) <- gsub("\\.","-", colnames(PSI_data_filled))
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyverse)
+  library(DMwR2)   # for knnImputation (optional)
+})
 
-PSI_data_data<-PSI_data[,1:10]
-PSI_data<-cbind(PSI_data_data,PSI_data_filled)
-
-# 创建新的行名，并删除空格
-Splice_event <- apply(PSI_data[, 1:3], 1, function(x) gsub("\\s", "", paste(x, collapse = "-")))
-
-# 将新的行名赋值给数据框的行名
-rownames(PSI_data) <- Splice_event
-
-PSI_data$as<-rownames(PSI_data)
-# PSI_data_top$as<-rownames(PSI_data_top)
-# dssd<-merge(PSI_data,PSI_data_top,by="as")
-
-PSI_data<-PSI_data[,c(11:1217)]
-PSI_data<-as.data.frame(t(PSI_data))
-PSI_data$Sample_ID<-row.names(PSI_data)
-
-PSI_data <- PSI_data %>%
-  dplyr::select(Sample_ID, everything())
-
-colnames(PSI_data) <- gsub(" ", "", colnames(PSI_data))
-
-col_names <- rownames(PSI_data)
-
-# 按照包含"-Norm"的列排序
-new_order <- c(
-  col_names[grepl("-Norm", col_names)],
-  col_names[!grepl("-Norm", col_names)]
+## ---------- 1) Load raw PSI table ----------
+# Expect columns:
+# 1:3 (event descriptors), 4:10 (meta), 11:... (samples incl. -Norm)
+PSI_raw <- read.table(
+  file = "/home/cmx/My_Project/indata/TCGA_cancer/BRCA/1_raw_download_data4step1/PSI_download_BRCA.txt",
+  header = TRUE, check.names = FALSE, quote = ""
 )
 
-# 使用order函数重新排列列
-PSI_data <- PSI_data[new_order, ]
-PSI_data_normal<-PSI_data[1:113,]
+## ---------- 2) Filter events ----------
+PSI_filt <- PSI_raw %>%
+  # keep high-variability events
+  dplyr::filter(psi_range >= 0.75, std_psi >= 0.01)
 
-# 删除"-Norm"部分
-PSI_data_normal$Sample_ID <- sub("-Norm", "", PSI_data_normal$Sample_ID)
+## Identify sample columns programmatically (avoid hard-coded 11:1217)
+is_sample_col <- grepl("^(TCGA-|.+-Norm$)", colnames(PSI_filt))
+# normalize underscores in sample IDs to hyphens for all sample columns
+colnames(PSI_filt)[is_sample_col] <- gsub("_", "-", colnames(PSI_filt)[is_sample_col])
 
-PSI_data_cancer<-PSI_data[114:1207,]
+## ---------- 3) (Optional) Impute missing values on sample block ----------
+# knnImputation requires numeric; coerce only the sample block
+sample_block <- PSI_filt[, is_sample_col, drop = FALSE]
+# safely coerce to numeric (non-numeric → NA)
+sample_block[] <- lapply(sample_block, function(x) suppressWarnings(as.numeric(x)))
+
+# If you already imputed elsewhere, skip this and read your file.
+# Otherwise you can run KNN here (commented because it can be slow):
+# sample_block <- knnImputation(sample_block, k = 10)
+
+# If you prefer to reuse the imputed CSV you created earlier:
+# imputed <- read.csv("./outdata/PSI_data_filled.csv", header = TRUE)
+# imputed <- imputed[, -1, drop = FALSE]
+# colnames(imputed) <- gsub("\\.", "-", colnames(imputed))
+# Make sure column sets match
+# stopifnot(identical(colnames(imputed), colnames(sample_block)))
+# sample_block <- imputed
+
+## ---------- 4) Rebuild the full table with imputed sample values ----------
+PSI_filt[, is_sample_col] <- sample_block
+
+## Create a compact event ID from the first three columns, trimming whitespace
+event_id <- apply(PSI_filt[, 1:3, drop = FALSE], 1, function(x) gsub("\\s+", "", paste(x, collapse = "-")))
+rownames(PSI_filt) <- event_id
+
+## ---------- 5) Build event × sample matrix ----------
+PSI_mat <- PSI_filt[, is_sample_col, drop = TRUE]
+# ensure matrix + numeric
+PSI_mat <- as.data.frame(PSI_mat)
+PSI_mat[] <- lapply(PSI_mat, function(x) suppressWarnings(as.numeric(x)))
+PSI_mat <- as.matrix(PSI_mat)
+
+## ---------- 6) Split into normal vs tumor by column name ----------
+is_norm <- grepl("-Norm$", colnames(PSI_mat))
+PSI_mat_norm   <- PSI_mat[,  is_norm, drop = FALSE]
+PSI_mat_tumor  <- PSI_mat[, !is_norm, drop = FALSE]
+
+## Optional: verify no overlap and both exist
+message("Events: ", nrow(PSI_mat),
+        " | Normal samples: ", ncol(PSI_mat_norm),
+        " | Tumor samples: ",  ncol(PSI_mat_tumor))
+
+## ---------- 7) Clean sample IDs ----------
+# For normals, remove the '-Norm' suffix so tumor/normal share the same base Sample_ID
+colnames(PSI_mat_norm) <- sub("-Norm$", "", colnames(PSI_mat_norm))
+
+## ---------- 8) Ensure consistent event rows (intersection) ----------
+common_events <- intersect(rownames(PSI_mat_norm), rownames(PSI_mat_tumor))
+PSI_mat_norm  <- PSI_mat_norm [common_events, , drop = FALSE]
+PSI_mat_tumor <- PSI_mat_tumor[common_events, , drop = FALSE]
+
+## ---------- 9) Final outputs in your expected data.frames ----------
+# If you need the long data.frame with a Sample_ID column:
+PSI_data_normal <- cbind(as.data.frame(t(PSI_mat_norm))) %>%
+  tibble::rownames_to_column("Sample_ID")
+
+PSI_data_cancer <- cbind(as.data.frame(t(PSI_mat_tumor))) %>%
+  tibble::rownames_to_column("Sample_ID")
+
+# Quick look
+# head(PSI_data_normal[, 1:6]); head(PSI_data_cancer[, 1:6])
